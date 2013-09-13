@@ -21,7 +21,7 @@ public class Generator : MonoBehaviour {
 		if ( m_acc_time > 5 ){
 			//Craete Target
 			Instantiate(m_target,m_spawnPoint.transform.position,Quaternion.identity);
-			print(transform.position);
+			//print(transform.position);
 			m_acc_time = 0;
 		} else {
 			m_acc_time+= Time.deltaTime;

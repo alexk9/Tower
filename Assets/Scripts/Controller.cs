@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+/*
+ * Fire a bullet periodic 
+ */
 public class Controller : MonoBehaviour {
 	
 	public Transform m_bullet;
@@ -23,6 +26,8 @@ public class Controller : MonoBehaviour {
 	        //myBullet.rigidbody.AddForce(spPoint.transform.forward * power);
 			print ("FIRE!!!"+NO);
 	    }
+		
+		
 		if( m_accTerm < FIRE_TERM ){
 			m_accTerm += Time.deltaTime;
 		} else {
@@ -31,15 +36,15 @@ public class Controller : MonoBehaviour {
 			GameObject[] a_goTargets =  GameObject.FindGameObjectsWithTag("TARGET");
 			
 			for(int idx=0;idx<a_goTargets.Length;idx++){
-				print(a_goTargets[idx]);
+				//print(a_goTargets[idx]);
 				if( a_goTargets[idx].name.StartsWith("Target") == true){
 					transform.LookAt(a_goTargets[idx].transform);
 					Debug.DrawRay(transform.position,Vector3.forward,Color.red,5.0f);
-					print("OBJECTS FOUNDS:["+a_goTargets[idx]+"]");
+					//print("OBJECTS FOUNDS:["+a_goTargets[idx]+"]");
 					Transform spPoint = gameObject.transform.FindChild("spawnPoint");                // spawnPoint 정보 읽기 -- ①
 		        	Transform myBullet= (Transform)Instantiate(m_bullet, spPoint.position, spPoint.rotation);
 		        	//myBullet.rigidbody.AddForce(spPoint.transform.forward * power);
-					print ("FIRE!!!"+NO);
+					//print ("FIRE!!!"+NO);
 					
 					break;
 				}
