@@ -22,6 +22,7 @@ public class Minion : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		
 		m_group.transform.Translate(new Vector3(0,0,-0.1f)*Time.deltaTime*m_speed);
 		//print ("Position of Minion:"+m_group.transform.position);
 		//transform.localScale += new Vector3(0.1F, 0, 0);

@@ -19,7 +19,8 @@ public class Generator : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if ( m_acc_time > 5 ){
-			Instantiate(m_target,new Vector3(-2.843029f, 1.069569f, 9f),Quaternion.identity);
+			//Craete Target
+			Instantiate(m_target,m_spawnPoint.transform.position,Quaternion.identity);
 			print(transform.position);
 			m_acc_time = 0;
 		} else {
@@ -64,8 +65,9 @@ public class Generator : MonoBehaviour {
 	
 	void OnGUI(){
 		//print ("ONGUI");
-		GUI.Box(new Rect(540,40,300,360), "");
-		if( GUI.Button(new Rect(560, 200, 50, 50), "Tower")){
+		
+		GUI.Box(new Rect(Screen.width - 300,40,280,360), "");
+		if( GUI.Button(new Rect(Screen.width - 280, 200, 50, 50), "Tower")){
 			print ("button clicked.");
 			m_towerClicked = true;
 			
@@ -73,9 +75,9 @@ public class Generator : MonoBehaviour {
 		}
 		
 		if( m_towerClicked ){
-			GUI.Label(new Rect(560,70,200,50),"적절한 위치에\n타워를 설치합니다.");
+			GUI.Label(new Rect(Screen.width - 280,70,200,50),"적절한 위치에\n타워를 설치합니다.");
 		} else {
-			GUI.Label(new Rect(560,70,200,50),"");
+			GUI.Label(new Rect(Screen.width - 280,70,200,50),"");
 		}
 	}
 	GameObject GetClickedObject(out RaycastHit hit) 
