@@ -1,6 +1,11 @@
 ﻿using UnityEngine;
 using System.Collections;
-
+/*
+ * Instantiate a target periodically
+ * and Instantiate tower folloed by user controll.
+ * 
+ * Display 2D UI Controlls
+ */
 public class Generator : MonoBehaviour {
 	
 	private float m_acc_time;
@@ -38,7 +43,7 @@ public class Generator : MonoBehaviour {
 				RaycastHit hitInfo; 
             	GameObject target = GetClickedObject(out hitInfo); 
 				
-				print ("Clicked Object:"+target);
+				//print ("Clicked Object:"+target);
 			}
 			
 			
@@ -48,16 +53,36 @@ public class Generator : MonoBehaviour {
 					m_cur_tower_temp =  (GameObject)Instantiate(m_towerTemplate);
 					m_isTemplateExists = true;
 				} else {
-					Vector3 mousePos = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));			
-					
-					m_towerClicked = false;
-					Destroy(m_cur_tower_temp);
-					m_isTemplateExists = false;
-					
-					Vector3 mousePos2 = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));			
-					GameObject new_tower = (GameObject)Instantiate(m_prefab_tower);	
-					new_tower.transform.position = new Vector3(mousePos.x, m_cur_tower_temp.transform.position.y, mousePos.z); 
-					print ("New Tower Position:"+new_tower.transform.position);
+					Vector3 mousePos  = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, -Camera.main.transform.position.z));			
+					Vector3 normalVec = normalizeVectorToMap(mousePos);
+					int[] idx = indexByVector(normalVec);
+					print ("ARRAY INDEX:"+idx[0]+","+idx[1]);
+					if( idx[0] < 0 || idx[0]> 9 || idx[1] < 0 || idx[1]> 9 ){
+						//cancel creating tower
+						m_towerClicked = false;
+						m_isTemplateExists = false;
+						Destroy(m_cur_tower_temp);
+					}
+					else if( MapData.MAP_INFO[idx[0],idx[1]] == -1 || MapData.MAP_INFO[idx[0],idx[1]]!=1  ){
+						// no action
+					} else {
+						
+						//SET MAP_INFO
+						MapData.MAP_INFO[idx[0],idx[1]] = 2;//Cannon set
+						print ("MAPINFO:"+MapData.toStringMAP_INFO());
+						
+						
+						GameObject new_tower = (GameObject)Instantiate(m_prefab_tower);	
+						//new_tower.transform.position = new Vector3(mousePos.x, m_cur_tower_temp.transform.position.y, mousePos.z); 
+						new_tower.transform.position = new Vector3(normalVec.x, m_cur_tower_temp.transform.position.y, normalVec.z); 
+						print ("New Tower Position:"+new_tower.transform.position);
+						
+						
+						//initialize state variables
+						m_towerClicked = false;
+						m_isTemplateExists = false;
+						Destroy(m_cur_tower_temp);
+					}
 				}
 			}
 		}
@@ -68,7 +93,7 @@ public class Generator : MonoBehaviour {
 		
 		GUI.Box(new Rect(Screen.width - 300,40,280,360), "");
 		if( GUI.Button(new Rect(Screen.width - 280, 200, 50, 50), "Tower")){
-			print ("button clicked.");
+			//print ("button clicked.");
 			m_towerClicked = true;
 			
 			//m_cur_tower_temp.transform.position = Vector3.zero;
@@ -89,4 +114,22 @@ public class Generator : MonoBehaviour {
 
         return target; 
     } 
+	
+	Vector3 normalizeVectorToMap(Vector3 rawVector){
+		print (rawVector+": rawVector@normalizeVectorToMap");
+		Vector3 normalVector = new Vector3(0,0,0);
+		normalVector.x = Mathf.Round( rawVector.x +0.5f) -0.5f;
+		normalVector.y = rawVector.y;
+		normalVector.z = Mathf.Round(rawVector.z +0.5f)-0.5f;
+		print (normalVector+":normalVector@normalizeVectorToMap");
+		return normalVector;
+	}
+	
+	int[] indexByVector( Vector3 normalVec){
+		print (normalVec+"@indexByVector");
+		int x =(int)( 9.5 - normalVec.z);
+		int y =(int)( 4.5 + normalVec.x);
+		
+		return new int[]{x,y};
+	}
 }

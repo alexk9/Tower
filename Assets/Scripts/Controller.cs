@@ -24,7 +24,7 @@ public class Controller : MonoBehaviour {
 	        GameObject spPoint = GameObject.Find("spawnPoint");                // spawnPoint 정보 읽기 -- ①
 	        //Instantiate(m_bullet, spPoint.transform.position, spPoint.transform.rotation);
 	        //myBullet.rigidbody.AddForce(spPoint.transform.forward * power);
-			print ("FIRE!!!"+NO);
+			//print ("FIRE!!!"+NO);
 	    }
 		
 		

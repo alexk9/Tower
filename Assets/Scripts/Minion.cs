@@ -47,7 +47,7 @@ public class Minion : MonoBehaviour {
 				is_nav_set= true;
 				NavMeshAgent navMeshAgent = gameObject.GetComponent<NavMeshAgent>();
 				navMeshAgent.destination = m_dest.transform.position;			
-				print ("NAV SET");
+				//print ("NAV SET");
 			}
 		}
 		else {
