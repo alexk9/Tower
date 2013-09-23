@@ -16,6 +16,7 @@ public class Generator : MonoBehaviour {
 	public GameObject m_prefab_tower;
 	private bool m_isTemplateExists = false;
 	private bool	m_towerClicked = false;
+	public float m_generateIntervalSec = 5;
 	// Use this for initialization
 	void Start () {
 		m_acc_time = 0;
@@ -23,7 +24,7 @@ public class Generator : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if ( m_acc_time > 5 ){
+		if ( m_acc_time > m_generateIntervalSec ){
 			//Craete Target
 			Instantiate(m_target,m_spawnPoint.transform.position,Quaternion.identity);
 			//print(transform.position);

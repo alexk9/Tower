@@ -34,27 +34,34 @@ public class Minion : MonoBehaviour {
 		//print ("dest:"+m_dest);
 		
 		
-		//NavMeshAgent navMeshAgent = gameObject.GetComponent<NavMeshAgent>();
-		//navMeshAgent.destination = m_dest.transform.position;
+		NavMeshAgent navMeshAgent = gameObject.GetComponent<NavMeshAgent>();
+		navMeshAgent.transform.Rotate(new Vector3(0,180,0));
+		
 		
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-		if( m_group.transform.position.z < 9.5){
+		if( true ||m_group.transform.position.z < 9.8){
 			if(is_nav_set == false ){
 				is_nav_set= true;
 				NavMeshAgent navMeshAgent = gameObject.GetComponent<NavMeshAgent>();
+				navMeshAgent.velocity = new Vector3(0,0,-3f);
+				//navMeshAgent.autoBraking= false;
+				//navMeshAgent.updatePosition = true;
+				//navMeshAgent.updateRotation = true;
 				navMeshAgent.destination = m_dest.transform.position;			
-				//print ("NAV SET");
+				print ("NAV SET");
 			}
 		}
 		else {
-			m_group.transform.Translate(new Vector3(0,0,-0.1f)*Time.deltaTime*m_speed);
+			//move forward
+			//m_group.transform.Translate(new Vector3(0,0,0.1f)*Time.deltaTime*m_speed);
 		}
 		
-		if(is_nav_set == true && m_group.transform.position.z > 9.6){
+		//When Minion go to End point, Destroy it.
+		if(is_nav_set == true && m_group.transform.position.z > 9.6 && m_group.transform.position.x > 3){
 			Destroy(gameObject);
 		}
 		
