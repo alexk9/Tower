@@ -46,9 +46,19 @@ public class Bullet : MonoBehaviour {
 	}
 	
 	void OnTriggerEnter(Collider other){
-		//print ("trigger");
+		print ("triggerEnter:"+other);
 		if( other.tag == "TARGET"){
 			Destroy(gameObject);
+		} else {
+			print ("ERROR!!!!!!!!!!!!!");
+		}
+	}
+	void OnTriggerExit(Collider other){
+		print ("triggerExit:"+other);
+		if( other.tag == "TARGET"){
+			Destroy(gameObject);
+		} else {
+			print ("ERROR!!!!!!!!!!!!!");
 		}
 	}
 }

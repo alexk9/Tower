@@ -24,7 +24,7 @@ public class Minion : MonoBehaviour {
 		m_initScale =m_group.transform.FindChild("Bar/GreenBar").transform.localScale ;
 		//print("MAX_VECTOR:"+m_group.transform.FindChild("Bar/GreenBar").transform.localScale);
 		
-		
+		m_energy = MAX_ENERGY;
 		m_bar = gameObject.transform.FindChild("Bar");
 		m_init_bar_rot = m_bar.rotation;
 		m_init_bar_pos = m_bar.position;
@@ -49,10 +49,10 @@ public class Minion : MonoBehaviour {
 				NavMeshAgent navMeshAgent = gameObject.GetComponent<NavMeshAgent>();
 				navMeshAgent.velocity = new Vector3(0,0,-3f);
 				//navMeshAgent.autoBraking= false;
-				//navMeshAgent.updatePosition = true;
-				//navMeshAgent.updateRotation = true;
+				navMeshAgent.updatePosition = true;
+				navMeshAgent.updateRotation = true;
 				navMeshAgent.destination = m_dest.transform.position;			
-				print ("NAV SET");
+				//print ("NAV SET");
 			}
 		}
 		else {
@@ -74,19 +74,21 @@ public class Minion : MonoBehaviour {
 	}
 	
 	void OnTriggerEnter(Collider other){
-		//print (other);
-		Transform tf_bar = m_group.transform.FindChild("Bar/GreenBar");
+		print (other);
+		Transform tf_grbar = m_group.transform.FindChild("Bar/GreenBar");
 		
 
 		
-		if(tf_bar.localScale.x > 0 ){
+		if(tf_grbar.localScale.x > 0 ){
 			m_energy = m_energy -DEMAGE;
-			Vector3 bf_position = tf_bar.position;
+			print ("ENERGY:"+m_energy);
+			Vector3 bf_position = tf_grbar.position;
 			//tf_bar.localScale += new Vector3(-0.01f,0,0);	
-			Vector3 cur_scale = tf_bar.localScale  ;	
+			Vector3 cur_scale = tf_grbar.localScale  ;	
 			cur_scale.x = m_initScale.x * m_energy / MAX_ENERGY;
-			tf_bar.localScale = cur_scale;
-			tf_bar.Translate( new Vector3(- DEMAGE/MAX_ENERGY/4,0,0));	
+			tf_grbar.localScale = cur_scale;
+			print ("TF_GRBAR:"+ cur_scale);
+			tf_grbar.Translate( new Vector3(- DEMAGE/MAX_ENERGY/4,0,0));	
 			
 			
 		} 
